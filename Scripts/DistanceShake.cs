@@ -9,9 +9,9 @@ public struct DistanceShake
 	[Tooltip ("Min and Max distance to have in count.")]
 	public Vector2 minMaxDis;
 
-	[Tooltip ("Shake to add at minDis or bellow.")]
+	[Tooltip ("Lower shake magnitude that can be added.")]
 	[Range(0, 1)] public float minMagnitude;
-	[Tooltip("Shake to add at maxDis or above.")]
+	[Tooltip ("Greater shake magnitude that can be added.")]
 	[Range(0, 1)] public float maxMagnitude;
 
 	[Tooltip ("Curve that defines how the shake is reduce by the distance.\n" +
