@@ -1,0 +1,16 @@
+{
+    "name": "LucasSerrano.CameraShake.Sample",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2e49d57ec3d87c4479d39190ddcaabab"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
