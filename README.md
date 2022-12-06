@@ -9,7 +9,7 @@ This repository includes a Unity Package file (.unitypackage) and a sample proje
 
 See everything this component can do and how to use it on the documentation, here: [S-LucasSerrano/CameraShaker/wiki](https://github.com/S-LucasSerrano/CameraShaker/wiki#camera-shaker--by-s-lucas-serrano)
 
-You can play with the sample project directly from your browser on the itch.io page of the asset: [See on Itch.io]().
+You can play with the sample project directly from your browser on the itch.io page of the asset: [See on Itch.io](https://lucasserrano.itch.io/camerashaker).
 
 ***
 
