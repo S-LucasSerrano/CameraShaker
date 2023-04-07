@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/CameraShaker/Sample/Scenes/CameraShaker.Sample.unity
+    guid: 32b7d0281cfe20e4dbc3d6a93b1d510d
   m_configObjects: {}

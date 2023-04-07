@@ -7,11 +7,18 @@ public class CameraShaker : MonoBehaviour
 {
 	#region Variables
 
-		/// <summary> Current amount of shake. </summary>
-		/// At 0 there is no shake. At 1 the shake is at its max values.
+	/// <summary> Current amount of shake. </summary>
+	/// At 0 there is no shake. At 1 the shake is at its max values.
 	protected float trauma = 0;
+	/// <summary> Current amount of directional shake. </summary>
+	protected float directionalTrauma = 0;
 
-		[Tooltip("Does the camera shake in 3D or 2D?")]
+	/// <summary> Rotation of the camera when not shaking. </summary>
+	protected Quaternion originalRot = new Quaternion();
+	/// <summary> Local position of the camera when not shaking. </summary>
+	protected Vector3 originalPos = new Vector3();
+
+	[Tooltip("Does the camera shake in 3D or 2D?")]
 	[Space][SerializeField] ShakeTypes shakeType = ShakeTypes._3D;
 
 		[Tooltip("Displacement in the X axis when the Trauma is at 1.")][Space]
@@ -33,12 +40,25 @@ public class CameraShaker : MonoBehaviour
 		"Increasing this value increases the randomness of the shakes.")]
 	[Space][SerializeField] float noiseScale = 17;
 
-		/// <summary> Coordinate from the noise map that determine the direction the camera shakes in each axis. </summary>
+	/// <summary> Coordinate from the noise map that determine the direction the camera shakes in each axis. </summary>
 	protected float noiseCoordinate = 0;
 
 
-		/// <summary> True if the object is shaking. </summary>
+	/// <summary> True if the object is shaking. </summary>
 	protected bool shaking = false;
+
+	#endregion
+
+
+	// -----------------------------------------------------
+	#region Start
+
+	private void Start()
+	{
+		// Save the original rotation and position to restore them after the shake.
+		originalRot = transform.localRotation;
+		originalPos = transform.localPosition;
+	}
 
 	#endregion
 
@@ -160,6 +180,74 @@ public class CameraShaker : MonoBehaviour
 	#endregion
 
 
+	// ---------
+	#region DirectionalShake()
+
+	/// <summary> Currently active DirectionalShake coroutine. </summary>
+	protected Coroutine _directionalShakeRoutine = null;
+
+	/// <summary> Shakes the camera in one direction in relation to the screen.
+	/// <para></para> The directional shake only works if the camera is not shaking. </summary>
+	/// <param name="shake"> Distance and direction to shake the camera. </param>
+	/// <param name="time"> Time that takes for the camera to return to its position. </param>
+	public void DirectionalShake(Vector2 shake, float time)
+	{
+		if (shaking) return;
+
+		if (_directionalShakeRoutine != null) StopCoroutine(_directionalShakeRoutine);
+		_directionalShakeRoutine = StartCoroutine(DirectionalShakeRoutine( shake, time ));
+	}
+
+	/// <summary> Shakes the camera in one direction in relation to the screen.
+	/// <para></para> The directional shake only works if the camera is not shaking. </summary>
+	/// <param name="shake"> Distance and direction to shake the camera. </param>
+	public void DirectionalShake(Vector2 shake)
+	{
+		if (shaking) return;
+
+		// If not time is provided,
+		// the time depends on how much the regular shake will take to reach 0 from that magnitude.
+		float maxMagnitude = MaxShake.magnitude;
+		float targetMagnitude = shake.magnitude;
+		float targetTime = (targetMagnitude * traumaReductionTime) / maxMagnitude;
+
+		DirectionalShake(shake, targetTime);
+	}
+
+	/// <summary> Coroutine that shakes the camera in a direction, slowly returning to its original position. </summary>
+	protected virtual IEnumerator DirectionalShakeRoutine(Vector2 shake, float time)
+	{
+		Vector3 movementShake = new Vector3(shake.x, shake.y, 0);
+		Vector3 rotationShake = new Vector3(-shake.y, shake.x, 0);
+		float timeCounter = time;
+
+		// Directional shake loop. If the camera starts shaking, the directional shake stops.
+		while (shaking == false && timeCounter > 0)
+		{
+			float scaledShake = timeCounter / time;
+
+			if (shakeType == ShakeTypes._3D)
+			{
+				transform.localRotation = originalRot;
+				transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles + rotationShake * scaledShake);
+			}
+			else
+			{
+				transform.localPosition = originalPos;
+				transform.localPosition += movementShake * scaledShake;
+			}
+
+			timeCounter -= Time.deltaTime;
+			yield return null;
+		}
+
+		transform.localPosition = originalPos;
+		transform.localRotation = originalRot;
+	}
+
+	#endregion
+
+
 	// -----------------------------------------------------
 	#region Shaking Routine
 
@@ -167,10 +255,6 @@ public class CameraShaker : MonoBehaviour
 	protected virtual IEnumerator ShakingRoutine()
 	{
 		shaking = true;
-
-		// Save the original rotation and position to restore it after the shake.
-		Quaternion originalRot = transform.localRotation;
-		Vector3 originalPos = transform.localPosition;
 
 		// Shaking loop.
 		while (trauma > 0)
@@ -295,7 +379,7 @@ public class CameraShaker : MonoBehaviour
 	}
 
 	#endregion
-	 
+
 
 	// -----------------------------------------------------
 	#region Public Get & Set
@@ -380,7 +464,7 @@ public class CameraShaker : MonoBehaviour
 
 
 	// -----------------------------------------------------
-	#region Defines
+	#region Definitions
 
 	/// <summary> Types of shake displacement. </summary>
 	public enum ShakeTypes
