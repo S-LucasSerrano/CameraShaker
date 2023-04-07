@@ -180,7 +180,7 @@ public class CameraShaker : MonoBehaviour
 	#endregion
 
 
-	// ---------
+	// ----------
 	#region DirectionalShake()
 
 	/// <summary> Currently active DirectionalShake coroutine. </summary>
