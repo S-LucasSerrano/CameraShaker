@@ -1,5 +1,5 @@
 # Camera Shaker
-``2.0``
+``2.1``
 
 A simple and easy-to-use Unity component to add juice and game feel to your games. This component shakes the camera using, instead of just random directions, the direction extracted from a perlin noise map. Making each movement feel more connected to the next one, and the shake overall, more fiscal and organic.
 
