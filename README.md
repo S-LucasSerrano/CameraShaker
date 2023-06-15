@@ -14,7 +14,7 @@ You can play with the sample project directly from your browser on the itch.io p
 ***
 
 ### About me
-My name is Sergio Lucas Serrano! I'm a gameplay programmer and game designer with a lot of focus on game feel and system and combat design.
+My name is Sergio Lucas Serrano! I'm a technical designer with a lot of focus on game feel.
 Check out my itch page to see my own games using this sweet camera shake!
 - https://lucasserrano.itch.io/
 
