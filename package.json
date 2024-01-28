@@ -1,0 +1,19 @@
+{
+	"name": "lucasserrano.camera-shaker",
+	"displayName": "Camera Shaker",
+	"version":"2.1.0",
+	"description": "Simple component to add juice and game feel.",
+	"author": {
+		"name" : "S. Lucas Serrano",
+		"email" : "Lucas.ss.Serrano@Gmail.com",
+		"url" : "https://github.com/S-LucasSerrano"
+	},
+	"documentationUrl":"https://github.com/S-LucasSerrano/CameraShaker/wiki",
+	"samples":[
+		{
+			"displayName":"Basic Usage",
+			"description":"Simple example showing how to use the package.",
+			"path":"Sample"
+		}
+	]
+}
